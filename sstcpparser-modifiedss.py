@@ -51,7 +51,8 @@ def extract_v6_sockets(insocket):
     """
     # IPv4 sockets have the format addr:port, which is easy to deal with
     # IPv6 is more complicated because the ':' to denote the port would be confusing if it were simply appended
-    # to the raw address.  So, the address is wrapped in square brackets.  We need to extract what's inside the brackets
+    # to the raw address, which uses `:` to separate hextets in the address.
+    # So, the address is wrapped in square brackets.  We need to extract what's inside the brackets
     # as the addr, and what follows ']:' as the port number
     :param insocket: string
     :return: tuple: addr,port
@@ -68,8 +69,12 @@ def extract_v6_sockets(insocket):
 def parse_results(ssitems):
     # create a dictionary
     analysis = { 'metadata': {'time': now}}
-    analysis['sockets'] = []        # sockets will be a list of dicts within this dictionary
+    analysis['sockets'] = []        # sockets will be a list of dicts
 
+    # the output is two lines per socket-
+    #   the reports the source/dest addrs and ports, along with the send & receive queue
+    #   the second line contains lots of TCP internal details
+    # We'll iterate over the list, two lines at a time
     for i in range(0, len(ssitems), 2):
         # initialize a temporary dictionary
         tdict = {}
@@ -93,8 +98,7 @@ def parse_results(ssitems):
         tdict['localport'] = localport
         tdict['remoteport'] = remoteport
 
-
-        # second line
+        # second line - split to create a list of key:value pairs we can work with
         details = ssitems[i + 1].split()
 
         for item in details:
@@ -110,7 +114,6 @@ def main():
     parsed_results = parse_results(info)
     with open(filename, 'w') as outfile:
         json.dump(parsed_results, outfile, indent=4)
-
 
 
 if __name__ == '__main__':
