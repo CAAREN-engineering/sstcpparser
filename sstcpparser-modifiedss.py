@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.12
 
 #######
 ## This version uses a modified version of `ss` which addresses some of the parsing difficulties when using the
