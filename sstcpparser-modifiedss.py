@@ -28,7 +28,7 @@ def get_info():
     # convert output to a list
     ssresults = result.stdout.split('\n')
 
-    ### remove empty last line
+    ### remove empty last lin
     if len(ssresults[-1]) == 0:
         del(ssresults[-1])
 
