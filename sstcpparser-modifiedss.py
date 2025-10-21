@@ -46,9 +46,6 @@ def get_info():
 
     return ssresults
 
-# iterate over the list of sockets, two at a time because the output has two lines per socket
-#   one for the summary (local:port dest:port)
-#   the second for detailed TCP stats
 
 def extract_v6_sockets(insocket):
     """
