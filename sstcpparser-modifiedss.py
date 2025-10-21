@@ -51,8 +51,9 @@ def extract_v6_sockets(insocket):
     """
     # IPv4 sockets have the format addr:port, which is easy to deal with
     # IPv6 is more complicated because the ':' to denote the port would be confusing if it were simply appended
-    # to the raw address, which uses `:` to separate hextets in the address.
-    # So, the address is wrapped in square brackets.  We need to extract what's inside the brackets
+    # to the raw address, which uses `:` to separate hextets as separators.
+    # So, the address is wrapped in square brackets.
+    # We need to extract what's inside the brackets
     # as the addr, and what follows ']:' as the port number
     :param insocket: string
     :return: tuple: addr,port
