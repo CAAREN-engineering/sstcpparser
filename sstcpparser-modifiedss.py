@@ -10,11 +10,23 @@
 
 # TODO: test if `ss` is where we expect it
 
-import time
-import subprocess
+from datetime import datetime
+import json
+import pathlib
 import re
+import subprocess
+import time
 
+# unix epoch for dict metadata
 now = int(time.time())
+
+# time for filename
+timestamp = datetime.now().isoformat(timespec='seconds').replace(":", "-")
+filename = f"./results/pretty-ss_{timestamp}.json"
+
+# make sure we can write to a results directory
+path = pathlib.Path('results')
+path.mkdir(parents=True, exist_ok=True)
 
 def get_info():
     """
@@ -99,6 +111,9 @@ def parse_results(ssitems):
 def main():
     info = get_info()
     parsed_results = parse_results(info)
+    with open(filename, 'w') as outfile:
+        json.dump(parsed_results, outfile, indent=4)
+
 
 
 if __name__ == '__main__':
