@@ -64,7 +64,6 @@ def parse_results(ssitems):
     for i in range(0, len(ssitems), 2):
         # initialize a temporary dictionary
         tdict = {}
-        print(f"index: {i} {ssitems[i]}")
 
         # deal with the first line - socket endpoints
         socket_endpoints = ssitems[i].split()
@@ -84,6 +83,7 @@ def parse_results(ssitems):
         tdict['remoteport'] = remoteport
         tdict['localport'] = localport
         tdict['remoteport'] = remoteport
+
 
         # second line
         details = ssitems[i + 1].split()
