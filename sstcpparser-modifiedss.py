@@ -70,7 +70,7 @@ def extract_v6_sockets(insocket):
 def parse_results(ssitems):
     # create a dictionary
     analysis = { 'metadata': {'time': now}}
-    analysis['sockets'] = []        # sockets will be a list of dicts
+    analysis['sockets'] = {}  # sockets is a dictionary with the loop iterator as a key
 
     # the output is two lines per socket-
     #   the reports the source/dest addrs and ports, along with the send & receive queue
@@ -106,7 +106,7 @@ def parse_results(ssitems):
             key, value = item.split(':')
             tdict[key] = value
 
-        analysis['sockets'].append(tdict)
+        analysis['sockets'][i] = tdict
     return analysis
 
 
