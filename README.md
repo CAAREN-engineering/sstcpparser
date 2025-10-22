@@ -19,7 +19,7 @@ Python 3.11+
 ****** This script requires a modified version of `ss` which corrects some parsing difficulties.  Specifically, most items are key:value pairs, except:
 
 
- - The congestion algorithm (in the above example `cubic`) is listed with a key
+ - The congestion algorithm (in the above example `cubic`) is listed without a key
  - There are a number of booleans which are only printed when true:
 ```
         - bool            has_ts_opt;  
