@@ -87,10 +87,10 @@ def parse_results(ssitems):
         # handle IPv4 vs IPv6
         if '[' in socket_endpoints[2]:
             localaddr, localport = extract_v6_sockets(socket_endpoints[2])
-            remoteaddr, remoteport = extract_v6_sockets(socket_endpoints[2])
+            remoteaddr, remoteport = extract_v6_sockets(socket_endpoints[3])
         else:
             localaddr, localport = socket_endpoints[2].split(':')
-            remoteaddr, remoteport = socket_endpoints[2].split(':')
+            remoteaddr, remoteport = socket_endpoints[3].split(':')
         tdict['recvq'] = recvq
         tdict['sendq'] = sendq
         tdict['localaddr'] = localaddr
