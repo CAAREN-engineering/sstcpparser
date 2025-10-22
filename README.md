@@ -13,7 +13,11 @@ That's hard to read.
 
 This program with put the info into a more readable JSON file.
 
+## Requirements
+Python 3.11+
+
 ****** This script requires a modified version of `ss` which corrects some parsing difficulties.  Specifically, most items are key:value pairs, except:
+
 
  - The congestion algorithm (in the above example `cubic`) is listed with a key
  - There are a number of booleans which are only printed when true:
@@ -27,6 +31,7 @@ This program with put the info into a more readable JSON file.
         - bool            has_wscale_opt;  
         - bool            app_limited;
 ```
+
 
 Also, a few items are missing `:`, which we use to find key:value pairs.  Specifically, `pacing_rate` and `delivery_rate`
 
