@@ -79,3 +79,17 @@ for index, item in enumerate(ssitems):
         {}
 }
 }
+
+
+
+
+----
+to get to items in the dict
+In [29]: results['sockets'][item]['localaddr'] + ' ' + results['sockets'][item]['localport']
+Out[29]: '2606:69c0:5120:5013:f0::1 ssh'
+
+
+In [35]: for item in results['sockets'].keys():
+    ...:     srcsocket = results['sockets'][item]['localaddr'] + ' ' + results['sockets'][item]['localport']
+    ...:     dstsocket = results['sockets'][item]['remoteaddr'] + ' ' + results['sockets'][item]['remoteport']
+    ...:     print(f"Socket: {item}\tsource: {srcsocket} -- dest: {dstsocket}")
