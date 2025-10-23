@@ -10,12 +10,27 @@
 
 # TODO: test if `ss` is where we expect it
 
+from argparse import ArgumentParser, RawTextHelpFormatter
 from datetime import datetime
 import json
 import pathlib
 import re
 import subprocess
 import time
+
+
+parser = ArgumentParser(description="Pretty printer for `ss -i` detailed TCP Info",
+                        formatter_class=RawTextHelpFormatter)
+
+
+parser.add_argument("-i", "--interactive", dest='mode', action='store_true',
+                    help="Interactive mode.\nDefault is to be quiet — write results to file and exit")
+
+args = parser.parse_args()
+
+mode = args.mode
+
+print(f"Mode: {mode}")
 
 # unix epoch for dict metadata
 now = int(time.time())
@@ -113,6 +128,9 @@ def parse_results(ssitems):
 def main():
     info = get_info()
     parsed_results = parse_results(info)
+    if mode:
+        pass # write function to present indexed list and display socket informatio
+    print(f"Results are in {filename}")
     with open(filename, 'w') as outfile:
         json.dump(parsed_results, outfile, indent=4)
 
