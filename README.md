@@ -28,6 +28,7 @@ Default operation is to be quiet- write results to a JSON file.
 
 The interactive mode will print a list of established sockets and allow you to select one to view details.
 
+Sockets are gathered once when the script is run and not updated until restarted.
 
 ## Requirements
 Python 3.11+
