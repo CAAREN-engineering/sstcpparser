@@ -30,8 +30,6 @@ args = parser.parse_args()
 
 mode = args.mode
 
-print(f"Mode: {mode}")
-
 # unix epoch for dict metadata
 now = int(time.time())
 
@@ -88,9 +86,12 @@ def parse_results(ssitems):
     analysis['sockets'] = {}  # sockets is a dictionary with the loop iterator as a key
 
     # the output is two lines per socket-
-    #   the reports the source/dest addrs and ports, along with the send & receive queue
-    #   the second line contains lots of TCP internal details
+    #     the reports the source/dest addrs and ports, along with the send & receive queue
+    #     the second line contains lots of TCP internal details
     # We'll iterate over the list, two lines at a time
+    # but we also want a nice monotonically increasing index to use as our dictionary key, so we'll
+    # create a counter
+    dictindex = 1
     for i in range(0, len(ssitems), 2):
         # initialize a temporary dictionary
         tdict = {}
@@ -121,16 +122,61 @@ def parse_results(ssitems):
             key, value = item.split(':')
             tdict[key] = value
 
-        analysis['sockets'][i] = tdict
+        analysis['sockets'][dictindex] = tdict
+        dictindex = dictindex + 1
     return analysis
+
+def display_sockets(indata):
+    """
+    print an index table of sockets
+    :param indata:
+    :return:
+    """
+    # print a table of sockets
+    for item in indata['sockets'].keys():
+        srcsocket = indata['sockets'][item]['localaddr'] + ' ' + indata['sockets'][item]['localport']
+        dstsocket = indata['sockets'][item]['remoteaddr'] + ' ' + indata['sockets'][item]['remoteport']
+        print(f"Socket: {item}\tsource: {srcsocket} -- dest: {dstsocket}")
+    return
+
+
+def interactive(indata):
+    """
+    present the list of sockets and ask user to select by index to display details
+    :param indata:
+    :return: nothing
+    """
+    display_sockets(indata)
+    numsockets = len(indata['sockets'].keys())
+    # ask user to select a socket
+    while True:
+
+        choice = input(f"\nEnter socket index (1-{numsockets}, 0 to quit, p to print socket list): ")
+        if str(choice).lower() == 'p':
+            display_sockets(indata)
+            continue
+        selected_socket = int(choice)
+        if selected_socket == 0:
+            print("Bye.")
+            break
+        elif str(selected_socket).lower() == 'p':
+            display_sockets(indata)
+            continue
+        elif 1 <= selected_socket <= numsockets:
+            print(f"\n\nSocket {selected_socket}\n")
+            for key, value in indata['sockets'][selected_socket].items():
+                print(f"{key}: {value}")
+        else:
+            print(f"Invalid input. Please enter a number between 1 and {numsockets}, or 0 to quit.")
+
 
 
 def main():
     info = get_info()
     parsed_results = parse_results(info)
     if mode:
-        pass # write function to present indexed list and display socket informatio
-    print(f"Results are in {filename}")
+        interactive(parsed_results)
+    print(f"\nResults are in {filename}")
     with open(filename, 'w') as outfile:
         json.dump(parsed_results, outfile, indent=4)
 
