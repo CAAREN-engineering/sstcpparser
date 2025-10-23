@@ -13,6 +13,22 @@ That's hard to read.
 
 This program with put the info into a more readable JSON file.
 
+## Usage
+```usage: sstcpparser-modifiedss.py [-h] [-i]
+
+Pretty printer for `ss -i` detailed TCP Info
+
+options:
+  -h, --help         show this help message and exit
+  -i, --interactive  Interactive mode.
+                     Default is to be quiet — write results to file and exit
+```
+
+Default operation is to be quiet- write results to a JSON file.
+
+The interactive mode will print a list of established sockets and allow you to select one to view details.
+
+
 ## Requirements
 Python 3.11+
 
